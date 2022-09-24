@@ -13,4 +13,4 @@ Eine Onion Architektur mit taktischen Domain Driven Design Pattern gewährleiste
 Die Backend Microservices werden in einem K8s Cluster deployed. Damit wird eine hohe Zuverlässigkeit, Wartbarkeit und Elastizität erreicht.
 
 ## Entkopplung von den Legacy Systemen
-Die Entkopplung von den Legacy Systemen wird mittels Kafka erreicht. Das ermöglicht zusätzliche Use Cases auf den integrierten Daten
+Die Entkopplung von den Legacy Systemen wird mittels Kafka erreicht. Das ermöglicht zudem zusätzliche Use Cases auf den integrierten Daten
