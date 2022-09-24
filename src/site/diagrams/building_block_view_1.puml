@@ -1,0 +1,27 @@
+@startuml
+
+[ic-frontend] as fe #lightblue
+[ic-bff] as bff #dodgerblue
+[ic-overview\n(KafkaStreams)] as overviewService #dodgerblue
+[Elasticsearch] as es #lightgrey
+[Kafka Cluster] as kafka #cornflowerblue
+[Vertragsmanagement System] as vertragsmgmt #lightslategrey
+[Partnermanagement System] as partnermgmt #lightslategrey
+
+
+fe -- bff : " REST"
+bff -- overviewService : " REST"
+overviewService -- kafka
+overviewService - es
+kafka -- vertragsmgmt
+kafka -- partnermgmt
+
+legend right
+    |<#lightblue>| Frontend|
+    |<#dodgerblue>| Microservice|
+    |<#lightgrey> | Datastore|
+    |<#cornflowerblue>| Kafka|
+    |<#lightslategrey>| Legacy Komponente|
+end legend
+
+@enduml

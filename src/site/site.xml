@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Maven" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+    <bannerLeft>
+        <name>Insurance Case Architekturdokumentation</name>
+    </bannerLeft>
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.11.1</version>
+    </skin>
+
+    <body>
+        <menu>
+            <item name="1. Einführung und Ziele" href="doc/01_introduction_and_goals.html"/>
+            <item name="2. Randbedingungen" href="doc/02_architecture_constraints.html"/>
+            <item name="3. Kontextabgrenzung" href="doc/03_system_scope_and_context.html"/>
+            <item name="4. Lösungsstrategie" href="doc/04_solution_strategy.html"/>
+            <item name="5. Bausteinsicht" href="doc/05_building_block_view.html"/>
+            <item name="6. Laufzeitsicht" href="doc/06_runtime_view.html"/>
+            <item name="7. Verteilungssicht" href="doc/07_deployment_view.html"/>
+            <item name="8. Konzepte" href="doc/08_cross_cutting_concepts.html"/>
+            <item name="9. Architekturentscheidungen" href="doc/09_architecture_decisions.html"/>
+            <item name="10. Qualitätsszenarien" href="doc/10_quality_requirements.html"/>
+        </menu>
+    </body>
+</project>
