@@ -1,31 +1,24 @@
 @startuml
 
-[ic-frontend] as fe #lightblue
-[ic-bff] as bff #dodgerblue
-[ic-overview\n(KafkaStreams)] as overviewService #dodgerblue
-[Elasticsearch] as es #lightgrey
-[Kafka Cluster] as kafka #cornflowerblue
-[Kafka-Connect (Contract)] as kcc #cornflowerblue
-[Kafka-Connect (Partner)] as kcp #cornflowerblue
-[Vertragsmanagement System] as vertragsmgmt #lightslategrey
-[Partnermanagement System] as partnermgmt #lightslategrey
+actor "User" as u
+participant Partnermanagement as pm
+participant Vertragsmanagement as vm
+participant "Kafka Connect" as kc
+database "partner-topic" as pt
+database "contract-topic" as ct
+database "overview-topic" as ot
+participant "ic-overview" as io
 
-
-fe -- bff : " REST"
-bff -- overviewService : " REST"
-overviewService -- kafka
-overviewService - es
-kafka -- kcc
-kcc --vertragsmgmt
-kafka -- kcp
-kcp -- partnermgmt
-
-legend right
-    |<#lightblue>| Frontend|
-    |<#dodgerblue>| Microservice|
-    |<#lightgrey> | Datastore|
-    |<#cornflowerblue>| Kafka & Kafka-Connect |
-    |<#lightslategrey>| Legacy Komponente|
-end legend
+u -> pm: update
+kc -> pm: watch
+kc -> pt: produce event
+activate io
+pt -> io: consume event
+u -> vm: updates
+kc -> pm: watch
+kc -> ct: produce event
+ct -> io: consume event
+io -> io: join partner & contract events
+io -> ot: produce event
 
 @enduml

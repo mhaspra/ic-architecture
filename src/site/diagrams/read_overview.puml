@@ -1,0 +1,17 @@
+@startuml
+
+actor "User" as u
+participant "ic-frontend" as icf
+participant "ic-bff" as icb
+participant "ic-overview" as ico
+database "elasticsearch" as es
+
+u -> icf: Open Overview
+icf -> icb: GET /api/v1/overview
+icb -> ico: GET /overview
+ico -> es: read index 'overview'
+es --> ico
+ico --> icb
+icb --> icf
+icf --> u: Open Overview
+@enduml

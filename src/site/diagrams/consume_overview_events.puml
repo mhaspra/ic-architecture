@@ -1,0 +1,11 @@
+@startuml
+
+database "contract-topic" as ct
+participant "ic-overview" as io
+database "elasticsearch" as es
+
+activate io
+ct -> io: consume event
+io -> es: update document
+
+@enduml
