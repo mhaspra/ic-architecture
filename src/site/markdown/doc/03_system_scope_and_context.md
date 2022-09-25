@@ -1,3 +1,1 @@
 # Kontextabgrenzung
-
-## Technischer Kontext
