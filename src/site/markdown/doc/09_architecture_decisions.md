@@ -8,11 +8,11 @@ Deswegen müssen die Daten repliziert werden um die Systeme zu entkoppeln.
 
 Dafür wurden folgende Pattern betrachtet:
 
-| Pattern | Braucht extra Datenspeicherung in den Client Applikationen | Elastisch | Fehleranfällig bei Ausfall Legacy System | Datenänderungen schnell verfügbar | Neue Applikationen können replizierte Daten brauchen (Event Sourcing) | Existieren Tools für die Integration | Team für Infrastruktur
-|---|---|---|---|---|---|---|---|
-| **Datenintegration mittels Kafka** | Nein, nur für explizite Use Cases | Ja | Nein | Ja | Ja | Ja viele Kafka-Connect Tools | Ja | Ja
-| **Datenreplikation mit Batches** | Ja, für jedes lesende System | Nein, Batches laufen irgendwann > 24h | Ja. Batches mit Resart-Möglichkeit sind sehr komplex | Nein, höchstens mit Microbatching. Das ist komplex | Nein | Nein | Nein 
-| **Datenreplikation mit Events und Rücklesepattern** | Ja, für jedes lesende System | Ja | Nein | Ja | Nein | Nein | Ja, minimal.
+| Pattern | Braucht extra Datenspeicherung in den Client Applikationen | Elastisch | Fehleranfällig bei Ausfall Legacy System | Datenänderungen schnell verfügbar | Neue Applikationen können replizierte Daten brauchen (Event Sourcing) | Existieren Tools für die Integration | Team für Infrastruktur | Änderung an den Legacysystemen notwendig
+|---|---|---|---|---|---|---|---|---|
+| **Datenintegration mittels Kafka** | Nein, nur für explizite Use Cases | Ja | Nein | Ja | Ja | Ja viele Kafka-Connect Tools z.B Debezium | Ja | Minimal (Zugriff für CDC)
+| **Datenreplikation mit Batches** | Ja, für jedes lesende System | Nein, Batches laufen irgendwann > 24h | Ja. Batches mit Resart-Möglichkeit sind sehr komplex | Nein, höchstens mit Microbatching. Das ist komplex | Nein | Nein | Nein | Minimal (Zugriff für Batch) 
+| **Datenreplikation mit Events und Rücklesepattern** | Ja, für jedes lesende System | Ja | Nein | Ja | Nein | Nein | Ja, minimal. | Ja. Event schicken & Rücklese-SST
 
 ### Entscheidung
 Wir integrieren die Daten mittels Kafka. Dies hat folgende Vorteile:
@@ -21,6 +21,7 @@ Wir integrieren die Daten mittels Kafka. Dies hat folgende Vorteile:
 - Neue Daten sind "soffort" verfügbar
   Die Datenspeicherung ist elastisch
 - Es existieren gute Tools um Daten automatisch in Kafka und wieder raus zu laden
+- Der Eingriff in die bestehenden Systeme ist minimal 
 - Wir sind damit cloud ready. Zum Beispiel AWS MKS oder einfach Kafka auf K8s
 ### Konsequenzen
 Es braucht **Kafka Know-How** und ein **Infrastruktur Team für die Betreuung**.\
@@ -132,3 +133,22 @@ Damit entkoppeln wir low level Infrastruktur Code von high-level Domain Code.
 ### Konsequenzen
 Architekturstil muss allen bekannt sein.\
 Details müssen in den Teams festgelegt werden.
+
+## ADR-10: Datenintegration mittels Kafka Connect mit Debezium Source Connector
+### Kontext
+Wir wollen, dass die Datenintegration von den Legacy Systemen
+* schnell ist
+* ohne grossen Overhead für die Legacy Applikationen läuft
+* ohne grosse Änderungen an den Legacy Applikationen möglich ist
+
+### Entscheidung
+Wir setzen dafür Kafka Connect mit Debezium als Source Connector ein.
+So
+* Läuft die integration im Kafka Cluster
+* Haben wir grösstmögliche Geschwindigkeit durch das Cage Data Capturing von Debezium
+* Haben wir kleinstmöglichen Overhead für die Legacyapplikationen
+* Haben wir kleinstmöglichen Änderungsbedarf an den Legacyapplikationen - Nur Zugriffsrechte
+
+### Konsequenzen
+Wir brauchen Zugriff auf die Datenbanken der Legacyapplikationen.\
+Wir brauchen ein Duplikathandling -> Debezium kann im Falle eines Crashes Duplikate senden.

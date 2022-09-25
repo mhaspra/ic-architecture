@@ -15,3 +15,5 @@ Z.B OIDC (Keyclak)
 
 ## Authorisierung insb. ABAC
 Dafür muss eine eigene Lösung gebaut werden.
+
+## Stability Pattern

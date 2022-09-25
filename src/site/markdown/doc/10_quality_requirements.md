@@ -16,6 +16,11 @@ Durch die Speicherung in Kafka und später in Elasticsearch ist das System von d
 Sowohl Elasticsearch als auch Kafka haben eine sehr gute Performance und können je nach Resourcenanforderungen elastisch horizontal skaliert werden.
 
 ### Near Realtime Daten
-Pus
+Durch den Streaming Ansatz - im Gegensatz zur Replikation mittls Batches - sind die Daten beinahe real-time in Kafka und dann in Elasticsearch vorhanden.
 
-### Resilienz gegenüber Fehlern
+### Resilienz gegenüber Fehlern/Ausfällen
+|Event|Einfluss auf die Legacy Systeme|Einfluss auf unser System|
+|---|---|---|
+|Unterbruch der Verbindung Legacy/Kafka Connect|Keinen, da vom WAL gelesen wird wird das ger nicht bemerkt| Kafka Connect macht automatischen Resume |
+|Crash/Shutdown Kafka Connector|Keinen, da vom WAL gelesen wird wird das ger nicht bemerkt| Kafka Connect macht automatischen Resume, **kann aber Duplikate schicken** |
+|Ausfall/Wartun Legacy Systeme|Siehe Verbindungsunterbruch| Siehe Verbindungsunterbruch |

@@ -14,3 +14,6 @@ Die Backend Microservices werden in einem K8s Cluster deployed. Damit wird eine 
 
 ## Entkopplung von den Legacy Systemen
 Die Entkopplung von den Legacy Systemen wird mittels Kafka erreicht. Das ermöglicht zudem zusätzliche Use Cases auf den integrierten Daten
+
+## Integration der Daten
+Die Integration der Daten in Kaffa machen wir mittels Kafka-Connect und dem CDC Tool Debezium.
