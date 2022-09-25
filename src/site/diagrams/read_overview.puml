@@ -7,11 +7,17 @@ participant "ic-overview" as ico
 database "elasticsearch" as es
 
 u -> icf: Open Overview
+activate icf
 icf -> icb: GET /api/v1/overview
+activate icb
 icb -> ico: GET /overview
+activate ico
 ico -> es: read index 'overview'
 es --> ico
 ico --> icb
+deactivate ico
 icb --> icf
+deactivate icb
 icf --> u: Open Overview
+deactivate icf
 @enduml

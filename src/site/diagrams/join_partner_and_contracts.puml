@@ -12,13 +12,14 @@ participant "ic-overview" as io
 u -> pm: update
 kc -> pm: watch
 kc -> pt: produce event
-activate io
 pt -> io: consume event
+activate io
 u -> vm: updates
 kc -> pm: watch
 kc -> ct: produce event
 ct -> io: consume event
 io -> io: join partner & contract events
 io -> ot: produce event
+deactivate io
 
 @enduml
